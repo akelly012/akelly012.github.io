@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Play Retro Bowl</title>
+  <title>Game Hub</title>
   <style>
     body {
       display: flex;
@@ -17,7 +17,7 @@
       height: 100vh;
       margin: 0;
     }
-    .play-btn {
+    .game-btn {
       background-color: red;
       color: white;
       font-size: 1.5rem;
@@ -27,32 +27,66 @@
       cursor: pointer;
       transition: 0.3s;
     }
-    .play-btn:hover {
+    .game-btn:hover {
       background-color: darkred;
     }
-    #gameFrame {
-      display: none; /* hidden until button is clicked */
+    iframe {
+      display: none;
       border: none;
       border-radius: 12px;
-      width: 800px;
-      height: 600px;
+      width: 90%;
+      height: 90%;
+    }
+    #home {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+    #backBtn {
+      display: none;
+      margin-top: 1rem;
+      background-color: gray;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+    #backBtn:hover {
+      background-color: darkgray;
     }
   </style>
 </head>
 <body>
-  <h1>Retro Bowl</h1>
+  <!-- Home Screen -->
+  <div id="home">
+    <h1>Game Hub</h1>
+    <button class="game-btn" onclick="playGame('retro')">Play Retro Bowl</button>
+    <button class="game-btn" onclick="playGame('slope')">Play Slope</button>
+  </div>
 
-  <!-- Red button -->
-  <button class="play-btn" id="playButton" onclick="playRetroBowl()">Play Retro Bowl</button>
+  <!-- Game Frames -->
+  <iframe id="retro" src="https://www.retrobowl.me/" allowfullscreen></iframe>
+  <iframe id="slope" src="https://y8.com/embed/slope" allowfullscreen></iframe>
 
-  <!-- Game iframe -->
-  <iframe id="gameFrame" src="https://www.retrobowl.me/" allowfullscreen></iframe>
+  <!-- Back Button -->
+  <button id="backBtn" onclick="goHome()">⬅ Back to Home</button>
 
   <script>
-    function playRetroBowl() {
-      document.getElementById("gameFrame").style.display = "block";
-      document.getElementById("playButton").style.display = "none"; // hide button after click
+    function playGame(gameId) {
+      document.getElementById("home").style.display = "none"; // hide home
+      document.getElementById(gameId).style.display = "block"; // show game
+      document.getElementById("backBtn").style.display = "block"; // show back button
+    }
+
+    function goHome() {
+      document.getElementById("home").style.display = "flex"; // show home
+      document.getElementById("retro").style.display = "none"; // hide retro
+      document.getElementById("slope").style.display = "none"; // hide slope
+      document.getElementById("backBtn").style.display = "none"; // hide back button
     }
   </script>
 </body>
 </html>
+
