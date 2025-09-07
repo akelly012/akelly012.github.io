@@ -184,3 +184,104 @@
   </script>
 </body>
 </html>
+<!-- Place this where you want the fallback game iframe to be, e.g. instead of an embed -->
+<div id="fallback" style="display:none; width:100%; max-width:900px; margin:0 auto;">
+  <canvas id="miniRacer" width="900" height="500" style="width:100%; height:auto; background:#111; border-radius:8px;"></canvas>
+</div>
+
+<script>
+/* Minimal Mini-Racer: dodge incoming blocks. Click/tap to jump. */
+(function(){
+  const canvas = document.getElementById('miniRacer');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width, H = canvas.height;
+  let player = {x:100, y:H-80, w:40, h:40, vy:0, onGround:true};
+  let gravity = 0.8;
+  let obstacles = [];
+  let spawnTimer = 0;
+  let score = 0;
+  let running = false;
+
+  function reset() {
+    obstacles = []; spawnTimer = 0; score = 0;
+    player.y = H-80; player.vy = 0; player.onGround = true;
+  }
+
+  function start() { running = true; reset(); loop(); }
+  function stop() { running = false; }
+
+  function spawn() {
+    const h = 30 + Math.random()*60;
+    obstacles.push({x: W + 20, y: H - h - 40, w: 30 + Math.random()*40, h: h});
+  }
+
+  function update() {
+    // player physics
+    player.vy += gravity;
+    player.y += player.vy;
+    if (player.y + player.h >= H-40) { player.y = H-40 - player.h; player.vy = 0; player.onGround = true; }
+
+    // obstacles
+    spawnTimer++;
+    if (spawnTimer > 60) { spawnTimer = 0; spawn(); }
+    for (let i = obstacles.length-1; i >= 0; i--) {
+      obstacles[i].x -= 6 + Math.min(4, Math.floor(score/100));
+      if (obstacles[i].x + obstacles[i].w < 0) { obstacles.splice(i,1); score += 10; }
+    }
+
+    // collision
+    for (let ob of obstacles) {
+      if (player.x < ob.x+ob.w && player.x+player.w > ob.x &&
+          player.y < ob.y+ob.h && player.y+player.h > ob.y) {
+        stop();
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    // ground
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, H-40, W, 40);
+    // player
+    ctx.fillStyle = '#e74c3c';
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+    // obstacles
+    ctx.fillStyle = '#27ae60';
+    for (let ob of obstacles) ctx.fillRect(ob.x, ob.y, ob.w, ob.h);
+    // score
+    ctx.fillStyle = '#fff'; ctx.font = '20px Arial';
+    ctx.fillText('Score: ' + score, 12, 28);
+
+    if (!running) {
+      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.font = '28px Arial';
+      ctx.fillText('Mini Racer', W/2, H/2 - 20);
+      ctx.font = '18px Arial';
+      ctx.fillText('Click or tap to start / jump', W/2, H/2 + 10);
+      ctx.fillText('Score resets on crash', W/2, H/2 + 40);
+      ctx.textAlign = 'start';
+    }
+  }
+
+  function loop() {
+    update(); draw();
+    if (running) requestAnimationFrame(loop);
+  }
+
+  // input
+  canvas.addEventListener('click', function(){
+    if (!running) start();
+    if (player.onGround) { player.vy = -14; player.onGround = false; }
+  });
+
+  // expose a start function for your hub
+  window.showFallback = function(){
+    document.getElementById('fallback').style.display = 'block';
+    // hide other game iframes yourself as needed
+    start();
+  };
+})();
+</script>
