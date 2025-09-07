@@ -1,5 +1,3 @@
-# akelly012.github.io
-gaming website
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +43,7 @@ gaming website
   <h1>Retro Bowl</h1>
 
   <!-- Red button -->
-  <button class="play-btn" onclick="playRetroBowl()">Play Retro Bowl</button>
+  <button class="play-btn" id="playButton" onclick="playRetroBowl()">Play Retro Bowl</button>
 
   <!-- Game iframe -->
   <iframe id="gameFrame" src="https://www.retrobowl.me/" allowfullscreen></iframe>
@@ -53,6 +51,7 @@ gaming website
   <script>
     function playRetroBowl() {
       document.getElementById("gameFrame").style.display = "block";
+      document.getElementById("playButton").style.display = "none"; // hide button after click
     }
   </script>
 </body>
