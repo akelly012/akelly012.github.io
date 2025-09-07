@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <meta charset="UTF-8">
-      <title>My Gaming website is goated</title>
-  </head>
-  <body>
-    <h1>Welcome to my first gaming website</h1>
-    <p>This is my first every Github Pages site!</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play Retro Bowl</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      margin: 0;
+    }
+    .play-btn {
+      background-color: red;
+      color: white;
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .play-btn:hover {
+      background-color: darkred;
+    }
+    #gameFrame {
+      display: none; /* hidden until button is clicked */
+      border: none;
+      border-radius: 12px;
+      width: 800px;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Retro Bowl</h1>
+
+  <!-- Red button -->
+  <button class="play-btn" id="playButton" onclick="playRetroBowl()">Play Retro Bowl</button>
+
+  <!-- Game iframe -->
+  <iframe id="gameFrame" src="https://www.retrobowl.me/" allowfullscreen></iframe>
+
+  <script>
+    function playRetroBowl() {
+      document.getElementById("gameFrame").style.display = "block";
+      document.getElementById("playButton").style.display = "none"; // hide button after click
+    }
+  </script>
+</body>
 </html>
