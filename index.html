@@ -55,7 +55,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1.5rem;
       width: 80%;
-      max-width: 800px;
+      max-width: 900px;
     }
 
     .game-card {
@@ -122,12 +122,20 @@
       <div class="game-card" onclick="playGame('slope')">
         <h2>Slope</h2>
       </div>
+      <div class="game-card" onclick="playGame('drive')">
+        <h2>Drive Mad</h2>
+      </div>
+      <div class="game-card" onclick="playGame('moto')">
+        <h2>Moto X3M</h2>
+      </div>
     </div>
   </div>
 
   <!-- Game Frames -->
   <iframe id="retro" src="https://www.retrobowl.me/" allowfullscreen></iframe>
   <iframe id="slope" src="https://y8.com/embed/slope" allowfullscreen></iframe>
+  <iframe id="drive" src="https://ubg77.github.io/game131022/drive-mad/" allowfullscreen></iframe>
+  <iframe id="moto" src="https://ubg77.github.io/game131022/moto-x3m/" allowfullscreen></iframe>
 
   <!-- Back Button -->
   <button id="backBtn" onclick="goHome()">⬅ Back to Home</button>
@@ -135,7 +143,7 @@
   <script>
     function playGame(gameId) {
       document.getElementById("home").style.display = "none"; // hide home
-      document.getElementById(gameId).style.display = "block"; // show game
+      document.getElementById(gameId).style.display = "block"; // show chosen game
       document.getElementById("backBtn").style.display = "block"; // show back button
     }
 
@@ -143,6 +151,8 @@
       document.getElementById("home").style.display = "flex"; // show home
       document.getElementById("retro").style.display = "none"; 
       document.getElementById("slope").style.display = "none"; 
+      document.getElementById("drive").style.display = "none"; 
+      document.getElementById("moto").style.display = "none"; 
       document.getElementById("backBtn").style.display = "none";
     }
 
@@ -158,5 +168,6 @@
   </script>
 </body>
 </html>
+
 
 
